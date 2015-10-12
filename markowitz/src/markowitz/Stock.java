@@ -9,14 +9,26 @@ import java.util.List;
 public class Stock {
 	private String nombre;
 	private List<Double>cierreTemporal;
+	private List<Double>indiceDiario;
+	public List<Double> getIndiceDiario() {
+		return indiceDiario;
+	}
+
+	public void setIndiceDiario(List<Double> indiceDiario) {
+		this.indiceDiario = indiceDiario;
+	}
+
 	private Double promedio=0.0;
 	private Double desviacionEstandar=0.0;
 	
 	public Stock(String nombre){
-		this.nombre = nombre;
+		//this.nombre = nombre;
 		cierreTemporal = new ArrayList<Double>();
-		File csv = new File("/Users/emyrkr/Documents/"+nombre + ".csv");
+		indiceDiario = new ArrayList<Double>();
+		File csv = new File(nombre);
+		this.nombre = nombre.substring(7,nombre.length()-4);
 		System.out.println(csv.getAbsolutePath());
+		System.out.println(nombre);
 		if(csv.exists()){
 			try{
 				String linea;
@@ -31,12 +43,15 @@ public class Stock {
 			catch(Exception e){
 				e.printStackTrace();
 			}
-			for(Double d:cierreTemporal){
-				//System.out.println(d);
-				this.promedio+=d; 
+			for(int i=1;i<cierreTemporal.size();i++){
+				double hpr = Math.log(cierreTemporal.get(i)/cierreTemporal.get(i-1));
+				System.out.println(hpr);
+				indiceDiario.add(hpr);
 			}
-			this.promedio/=this.cierreTemporal.size();
-			//this.promedio = this.promedio;
+			for(Double d:indiceDiario){
+				promedio+=d;
+			}
+			promedio/=indiceDiario.size();
 		}
 		else{
 			System.out.println("Archivo de bolsa inexistente");

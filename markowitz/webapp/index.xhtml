@@ -16,18 +16,52 @@
     </style>
 </h:head>
 <h:body>
-	<p:panel>
-		<f:facet name="header">Teste</f:facet>
-			<p:dataTable var="stock" value="#{stockController.s.cierreTemporal}" scrollable="true" scrollHeight="250">
-			<p:column>
-			<f:facet name="header">#{stockController.s.nombre}</f:facet>
-			<h:outputText value="#{stock}"></h:outputText>
-			<f:facet name="footer">#{stockController.s.promedio}</f:facet>
-			</p:column>
-			<p:column>
-			</p:column>
+	<p:panelGrid columns="20">
+		<f:facet name="header">Acciones</f:facet>
+			<p:dataTable var="stock" value="#{stockController.ACMX.indiceDiario}" scrollable="true" scrollHeight="250">
+				<f:facet name="header">
+				<h:outputText value="#{stockController.ACMX.nombre}"></h:outputText>
+				</f:facet>
+				<f:facet name="footer">
+					<h:outputText value="#{stockController.ACMX.promedio}"></h:outputText>
+				</f:facet>
+				<p:column>
+					<h:outputText value="#{stock}" />
+				</p:column>
 			</p:dataTable>
-		
-	</p:panel>
+			<p:dataTable var="stock" value="#{stockController.BIMBOA.indiceDiario}" scrollable="true" scrollHeight="250">
+				<f:facet name="header">
+				<h:outputText value="#{stockController.BIMBOA.nombre}"></h:outputText>
+				</f:facet>
+				<f:facet name="footer">
+					<h:outputText value="#{stockController.BIMBOA.promedio}"></h:outputText>
+				</f:facet>
+				<p:column>
+					<h:outputText value="#{stock}" />
+				</p:column>
+			</p:dataTable>
+			<p:dataTable var="stock" value="#{stockController.ELEKTRA.indiceDiario}" scrollable="true" scrollHeight="250">
+				<f:facet name="header">
+				<h:outputText value="#{stockController.ELEKTRA.nombre}"></h:outputText>
+				</f:facet>
+				<f:facet name="footer">
+					<h:outputText value="#{stockController.ELEKTRA.promedio}"></h:outputText>
+				</f:facet>
+				<p:column>
+					<h:outputText value="#{stock}" />
+				</p:column>
+			</p:dataTable>
+			<p:dataTable var="stock" value="#{stockController.SAREB.indiceDiario}" scrollable="true" scrollHeight="250">
+				<f:facet name="header">
+				<h:outputText value="#{stockController.SAREB.nombre}"></h:outputText>
+				</f:facet>
+				<f:facet name="footer">
+					<h:outputText value="#{stockController.SAREB.promedio}"></h:outputText>
+				</f:facet>
+				<p:column>
+					<h:outputText value="#{stock}" />
+				</p:column>
+			</p:dataTable>
+	</p:panelGrid >
 </h:body>
 </html>
