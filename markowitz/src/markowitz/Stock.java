@@ -3,13 +3,27 @@ package markowitz;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
 public class Stock {
+	public List<Double> getXix() {
+		return xix;
+	}
+
+	public void setXix(List<Double> xix) {
+		this.xix = xix;
+	}
+
+	public void setPromedio(double promedio) {
+		this.promedio = promedio;
+	}
+
 	private String nombre;
 	private List<Double>cierreTemporal;
 	private List<Double>indiceDiario;
+	private List<Double>xix;
 	public List<Double> getIndiceDiario() {
 		return indiceDiario;
 	}
@@ -18,8 +32,8 @@ public class Stock {
 		this.indiceDiario = indiceDiario;
 	}
 
-	private Double promedio=0.0;
-	private Double desviacionEstandar=0.0;
+	private double promedio = 0.0;
+	//private Double desviacionEstandar=0.0;
 	
 	public Stock(String nombre){
 		//this.nombre = nombre;
@@ -36,7 +50,9 @@ public class Stock {
 				br.readLine();
 				while((linea=br.readLine())!=null){
 					String values[] = linea.split(",");
-					cierreTemporal.add(Double.parseDouble(values[6]));
+					BigDecimal bd = BigDecimal.valueOf(Double.parseDouble(values[6]));
+					bd = bd.setScale(5);
+					cierreTemporal.add(bd.doubleValue());
 				}
 				br.close();
 			}
@@ -44,14 +60,25 @@ public class Stock {
 				e.printStackTrace();
 			}
 			for(int i=1;i<cierreTemporal.size();i++){
-				double hpr = Math.log(cierreTemporal.get(i)/cierreTemporal.get(i-1));
-				System.out.println(hpr);
-				indiceDiario.add(hpr);
+				BigDecimal bd1 = BigDecimal.valueOf(Math.log(cierreTemporal.get(i)/cierreTemporal.get(i-1)));
+				bd1 = bd1.setScale(4, BigDecimal.ROUND_HALF_UP);
+			//	System.out.println(hpr);
+				indiceDiario.add(bd1.doubleValue());
 			}
 			for(Double d:indiceDiario){
 				promedio+=d;
 			}
-			promedio/=indiceDiario.size();
+			//promedio.divide(promedio, indiceDiario.size());
+			promedio /= indiceDiario.size();
+			//System.out.println("Promedio : " + promedio);
+			
+			xix = new ArrayList<Double>();
+			
+			for(Double d:indiceDiario){
+				xix.add(d-promedio);
+				//System.out.println(d-promedio);
+			}
+			
 		}
 		else{
 			System.out.println("Archivo de bolsa inexistente");
@@ -80,14 +107,6 @@ public class Stock {
 
 	public void setPromedio(Double promedio) {
 		this.promedio = promedio;
-	}
-
-	public Double getDesviacionEstandar() {
-		return desviacionEstandar;
-	}
-
-	public void setDesviacionEstandar(Double desviacionEstandar) {
-		this.desviacionEstandar = desviacionEstandar;
 	}
 	
 }
